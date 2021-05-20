@@ -1,29 +1,27 @@
+const _debounce = require('lodash.debounce');
 import './styles.css';
 import maktup from './templates/maktup.hbs';
-const _debounce = require('lodash.debounce');
+import card from './templates/card.hbs';
+import Inquiry from './js/class-api.js';
 
+
+const inquiry = new Inquiry();
 const refs = {
     input: document.querySelector('.js-input'),
     section: document.querySelector('.js-countries-section')
 };
-refs.input.addEventListener('input', _debounce(fun, 500));
+refs.input.addEventListener('input', _debounce(passingValue, 500));
 
-//console.log(maktup)
-function fun(ev){
-  console.log(ev.target.value);
-  response(ev.target.value)
 
+function passingValue(ev) {
+    inquiry.response(ev.target.value).then(res => res.length > 1 && res.length < 11 ? makeMaktup(res) : makeCard(res));
 };
 
-function makeMaktup (ev){
-   refs.section.innerHTML = maktup(ev);
-    console.log(maktup(ev));
-    
+function makeMaktup(ev) {
+    refs.section.innerHTML = maktup(ev);
 };
-function response (val) {
-  return  fetch(`https://restcountries.eu/rest/v2/name/${val}`)
-    .then(res=>res.json().then(makeMaktup)//.catch(err=>{}
-    )
 
-  };
-
+function makeCard(ev) {
+    refs.section.innerHTML = card(ev);
+    console.log(ev)
+};
