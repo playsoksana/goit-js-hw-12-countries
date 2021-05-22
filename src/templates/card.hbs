@@ -1,15 +1,20 @@
-<article>
-    <h2>{{name}}</h2>
-    <ul>
-        <li><span>Capital{{capital}}</span></li>
-        <li><span>Population{{population}}</span></li>
-        <li><span>languages
-                <ul>
-                    {{#each languages}}
-                    <li>{{languages.name}}</li>
-                    {{/each}}
-                </ul>
-            </span></li>
-    </ul>
-    <img src="{{flag}}" alt="flag">
+{{#each this}}
+<article class="article">
+    <h2 class="article-title">{{this.name}}</h2>
+    <div class="article-conteiner">
+        <ul class="article-list">
+            <li><span class="">Capital</span><span class="article-item">{{this.capital}}</span></li>
+            <li><span>Population</span><span class="article-item">{{this.population}}</span></li>
+            <li><span>languages
+                    <ul class="article-languages">
+                        {{#each this.languages}}
+                        <li>{{this.name}}</li>
+                        {{/each}}
+                    </ul>
+                </span></li>
+        </ul>
+        <img class="article-img" src={{flag}}
+            alt="flag" width="400px">
+    </div>
 </article>
+{{/each}}
