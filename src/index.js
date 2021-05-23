@@ -5,27 +5,28 @@ import card from './templates/card.hbs';
 import fetchCountries from './js/fetchCountries.js';
 import getRefs from './js/refs.js';
 import isHiddenModal from './js/modal-hiden.js';
-import {error, broadRequest} from './js/errors.js';
+import {error, warningAboutBroadRequest} from './js/errors.js';
 const refs = getRefs();
 refs.input.addEventListener('input', _debounce(passingValue, 500));
 
 function passingValue(ev) {
-   return fetchCountries(ev.target.value).then(ev =>
-    ev.length < 11 && ev.length > 1
-    ? makeMaktup(ev) : ev.length < 2
-    ? makeCard(ev)
-    : broadRequest(ev))
+   return fetchCountries(ev.target.value).then(data =>
+    data.length < 11 && data.length > 1
+    ? makeMaktup(data) : data.length < 2
+    ? makeCard(data)
+    : warningAboutBroadRequest(data))
     .catch(error);
 };
 
 
-function makeMaktup(ev) { 
-    refs.section.innerHTML = maktup(ev);
+function makeMaktup(mak) { 
+    refs.section.innerHTML = maktup(mak);
     isHiddenModal();
 };
 
 
-function makeCard(ev) {       
-    refs.section.innerHTML = card(ev);
+function makeCard(mak) {       
+    refs.section.innerHTML = card(mak);
     isHiddenModal();
 };
+

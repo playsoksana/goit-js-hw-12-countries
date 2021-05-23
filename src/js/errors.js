@@ -10,7 +10,7 @@ defaults.styling = 'material';
 import getRefs from './refs.js';
 const refs = getRefs();
 
-export function broadRequest(err) {
+export function warningAboutBroadRequest(err) {
     clearDom();
     alert({ text: 'Too many matches found. Please enter a more specific query'});
 };
