@@ -5,12 +5,16 @@ import maktup from './templates/maktup.hbs';
 import card from './templates/card.hbs';
 import fetchCountries from './js/fetchCountries.js';
 import getRefs from './js/refs.js';
-import {warningAboutBroadRequest} from './js/errors.js';
+import {error, warningAboutBroadRequest} from './js/errors.js';
 const refs = getRefs();
 refs.input.addEventListener('input', _debounce(passingValue, 500));
 
 function passingValue(ev) {
-    return fetchCountries(ev.target.value).
+    const textOfInput = ev.target.value.trim();
+    if (textOfInput.length < 1) {
+        return error();
+    }
+    return fetchCountries(textOfInput).
         then(data => data.length <= 10 && data.length >= 2
             ? makeMaktup(data)
             : data.length < 2
@@ -27,6 +31,10 @@ function makeMaktup(mak) {
 
 function makeCard(mak) {       
     refs.section.innerHTML = card(mak);
-defaultStack.close();
+    defaultStack.close();
+    clearInput();
 };
 
+function clearInput() {
+    refs.input.value = '';
+};
